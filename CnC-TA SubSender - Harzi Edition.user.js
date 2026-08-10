@@ -18,7 +18,7 @@
 
     'use strict';
 
-    const scriptName = 'SubSender - Harzi Edition';
+    const scriptName = 'SubSender - HE';
 
     const settingsKey =
           'HarziSubSender.Settings';
