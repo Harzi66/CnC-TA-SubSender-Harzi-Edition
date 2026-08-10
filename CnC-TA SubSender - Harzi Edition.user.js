@@ -269,51 +269,51 @@
             );
 
 
-            captionLabel.set({
+        captionLabel.set({
 
-                width: 105,
+            width: 105,
 
-                alignY:
-                'middle'
-            });
-
-
-            styleLabel(
-                captionLabel,
-                COLORS.white,
-                15,
-                true
-            );
+            alignY:
+            'middle'
+        });
 
 
-            const valueLabel =
-                  new qx.ui.basic.Label(
-                      String(value ?? '')
-                  );
+        styleLabel(
+            captionLabel,
+            COLORS.white,
+            15,
+            true
+        );
 
 
-            valueLabel.set({
-
-                alignY:
-                'middle'
-            });
-
-
-            styleLabel(
-                valueLabel,
-                COLORS.yellow,
-                15,
-                true
-            );
+        const valueLabel =
+              new qx.ui.basic.Label(
+                  String(value ?? '')
+              );
 
 
-            row.add(iconLabel);
-            row.add(captionLabel);
-            row.add(valueLabel);
+        valueLabel.set({
+
+            alignY:
+            'middle'
+        });
 
 
-            return row;
-        }
+        styleLabel(
+            valueLabel,
+            COLORS.yellow,
+            15,
+            true
+        );
+
+
+        row.add(iconLabel);
+        row.add(captionLabel);
+        row.add(valueLabel);
+
+
+        return row;
+    }
 
 
     // =========================================================
@@ -465,13 +465,13 @@
         );
 
 
-            styleLabel(
-                statusLabel,
-                COLORS.green,
-                15,
-                true
-            );
-        }
+        styleLabel(
+            statusLabel,
+            COLORS.green,
+            15,
+            true
+        );
+    }
 
 
     // =========================================================
@@ -551,149 +551,149 @@
         }
 
 
-            // -----------------------------------------------------
-            // Session-ID
-            // -----------------------------------------------------
+        // -----------------------------------------------------
+        // Session-ID
+        // -----------------------------------------------------
 
-            let instanceId;
-
-
-            try {
-
-                instanceId =
-                    ClientLib.Net.CommunicationManager
-                    .GetInstance()
-                    .get_InstanceId();
+        let instanceId;
 
 
-            } catch (e) {
+        try {
 
-                console.error(
-                    `${scriptName}: InstanceId konnte nicht ermittelt werden`,
-                    e
-                );
-
-
-                statusLabel.setValue(
-                    'Fehler: Session-ID konnte nicht ermittelt werden'
-                );
+            instanceId =
+                ClientLib.Net.CommunicationManager
+                .GetInstance()
+                .get_InstanceId();
 
 
-                styleLabel(
-                    statusLabel,
-                    COLORS.red,
-                    15,
-                    true
-                );
+        } catch (e) {
 
-
-                return;
-            }
-
-
-            const dataSub = {
-
-                name:
-                targetPlayer,
-
-                session:
-                instanceId
-            };
-
-
-            console.log(
-                `${scriptName}: sende UV an ${targetPlayer}`,
-                dataSub
+            console.error(
+                `${scriptName}: InstanceId konnte nicht ermittelt werden`,
+                e
             );
 
 
             statusLabel.setValue(
-                `UV wird an ${targetPlayer} gesendet ...`
-        );
+                'Fehler: Session-ID konnte nicht ermittelt werden'
+            );
 
 
             styleLabel(
                 statusLabel,
-                COLORS.yellow,
+                COLORS.red,
                 15,
                 true
             );
 
 
-            if (sendButton) {
-
-                sendButton.setEnabled(
-                    false
-                );
-            }
+            return;
+        }
 
 
-            // -----------------------------------------------------
-            // Versand
-            // -----------------------------------------------------
+        const dataSub = {
 
-            ClientLib.Net.CommunicationManager
-                .GetInstance()
-                .SendSimpleCommand(
+            name:
+            targetPlayer,
 
-                'SubstitutionCreateReq',
-
-                dataSub,
-
-                webfrontend.phe.cnc.Util.createEventDelegate(
-
-                    ClientLib.Net.CommandResult,
-
-                    this,
-
-                    function () {
-
-                        console.log(
-                            `${scriptName}: UV gesendet an ${targetPlayer}`
-                        );
+            session:
+            instanceId
+        };
 
 
-                        statusLabel.setValue(
-                            `UV gesendet → ${targetPlayer}`
-                        );
+        console.log(
+            `${scriptName}: sende UV an ${targetPlayer}`,
+            dataSub
+        );
 
 
-                        styleLabel(
-                            statusLabel,
-                            COLORS.green,
-                            15,
-                            true
-                        );
+        statusLabel.setValue(
+            `UV wird an ${targetPlayer} gesendet ...`
+        );
 
 
-                        setTimeout(
-                            function () {
-
-                                if (
-                                    sendButton &&
-                                    !sendButton.isDisposed()
-                                ) {
-
-                                    sendButton.setEnabled(
-                                        true
-                                    );
-                                }
+        styleLabel(
+            statusLabel,
+            COLORS.yellow,
+            15,
+            true
+        );
 
 
-                                updateStatus(
-                                    statusLabel
-                                );
+        if (sendButton) {
 
-                            },
-                            1500
-                        );
-
-                    }
-                ),
-
-                null
+            sendButton.setEnabled(
+                false
             );
         }
+
+
+        // -----------------------------------------------------
+        // Versand
+        // -----------------------------------------------------
+
+        ClientLib.Net.CommunicationManager
+            .GetInstance()
+            .SendSimpleCommand(
+
+            'SubstitutionCreateReq',
+
+            dataSub,
+
+            webfrontend.phe.cnc.Util.createEventDelegate(
+
+                ClientLib.Net.CommandResult,
+
+                this,
+
+                function () {
+
+                    console.log(
+                        `${scriptName}: UV gesendet an ${targetPlayer}`
+                        );
+
+
+                    statusLabel.setValue(
+                        `UV gesendet → ${targetPlayer}`
+                        );
+
+
+                    styleLabel(
+                        statusLabel,
+                        COLORS.green,
+                        15,
+                        true
+                    );
+
+
+                    setTimeout(
+                        function () {
+
+                            if (
+                                sendButton &&
+                                !sendButton.isDisposed()
+                            ) {
+
+                                sendButton.setEnabled(
+                                    true
+                                );
+                            }
+
+
+                            updateStatus(
+                                statusLabel
+                            );
+
+                        },
+                        1500
+                    );
+
+                }
+            ),
+
+            null
+        );
+    }
 
 
     // =========================================================
@@ -1071,19 +1071,19 @@
         }
 
 
-            // -----------------------------------------------------
-            // Sicherheitshalber noch einmal prüfen
-            // -----------------------------------------------------
+        // -----------------------------------------------------
+        // Sicherheitshalber noch einmal prüfen
+        // -----------------------------------------------------
 
-            const currentSub =
-                  getSubstitutionStatus();
+        const currentSub =
+              getSubstitutionStatus();
 
 
-            if (currentSub.active) {
+        if (currentSub.active) {
 
-                console.log(
-                    `${scriptName}: UV inzwischen vorhanden → ` +
-                    `${currentSub.player}`
+            console.log(
+                `${scriptName}: UV inzwischen vorhanden → ` +
+                `${currentSub.player}`
             );
 
 
@@ -1091,73 +1091,73 @@
         }
 
 
-            let instanceId;
+        let instanceId;
 
 
-            try {
+        try {
 
-                instanceId =
-                    ClientLib.Net.CommunicationManager
-                    .GetInstance()
-                    .get_InstanceId();
-
-
-            } catch (e) {
-
-                console.error(
-                    `${scriptName}: InstanceId konnte für Automatik ` +
-                    `nicht ermittelt werden`,
-                    e
-                );
+            instanceId =
+                ClientLib.Net.CommunicationManager
+                .GetInstance()
+                .get_InstanceId();
 
 
-                return;
-            }
+        } catch (e) {
 
-
-            const dataSub = {
-
-                name:
-                targetPlayer,
-
-                session:
-                instanceId
-            };
-
-
-            console.log(
-                `${scriptName}: AUTOMATIK → sende UV an ${targetPlayer}`,
-                dataSub
+            console.error(
+                `${scriptName}: InstanceId konnte für Automatik ` +
+                `nicht ermittelt werden`,
+                e
             );
 
 
-            ClientLib.Net.CommunicationManager
-                .GetInstance()
-                .SendSimpleCommand(
+            return;
+        }
 
-                'SubstitutionCreateReq',
 
-                dataSub,
+        const dataSub = {
 
-                webfrontend.phe.cnc.Util.createEventDelegate(
+            name:
+            targetPlayer,
 
-                    ClientLib.Net.CommandResult,
+            session:
+            instanceId
+        };
 
-                    this,
 
-                    function () {
+        console.log(
+            `${scriptName}: AUTOMATIK → sende UV an ${targetPlayer}`,
+            dataSub
+        );
 
-                        console.log(
-                            `${scriptName}: AUTOMATIK → UV gesendet an ` +
-                            `${targetPlayer}`
+
+        ClientLib.Net.CommunicationManager
+            .GetInstance()
+            .SendSimpleCommand(
+
+            'SubstitutionCreateReq',
+
+            dataSub,
+
+            webfrontend.phe.cnc.Util.createEventDelegate(
+
+                ClientLib.Net.CommandResult,
+
+                this,
+
+                function () {
+
+                    console.log(
+                        `${scriptName}: AUTOMATIK → UV gesendet an ` +
+                        `${targetPlayer}`
                         );
 
-                    }
-                ),
+                }
+            ),
 
-                null
-            );
-        }
+            null
+        );
+    }
 
 
     // =========================================================
@@ -1704,16 +1704,16 @@
         const scriptsButton =
               qxApp.getMenuBar().getScriptsButton();
 
+        const menu =
+              scriptsButton.getMenu();
 
         const existingItem =
-              scriptsButton
-        .getMenu()
+              menu
         .getChildren()
         .find(
             item =>
             item.getLabel() === scriptName
         );
-
 
         if (existingItem) {
 
@@ -1722,22 +1722,22 @@
                 openWindow
             );
 
-
             return;
         }
 
-
         const menuItem =
-              scriptsButton.Add(
+              new qx.ui.menu.Button(
                   scriptName
               );
-
 
         menuItem.addListener(
             'execute',
             openWindow
         );
 
+        menu.add(
+            menuItem
+        );
 
         console.log(
             `%c${scriptName}: Menüeintrag hinzugefügt`,
