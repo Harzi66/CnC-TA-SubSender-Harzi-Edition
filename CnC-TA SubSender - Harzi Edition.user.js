@@ -25,6 +25,7 @@
 
     let qxApp = null;
     let subSenderWindow = null;
+    let automaticCheckTimer = null;
 
 
     // =========================================================
@@ -927,126 +928,116 @@
             const gameData =
                   getGameData();
 
-
+            // Welt oder Allianz noch nicht verfügbar
             if (
                 !gameData.worldId ||
                 !gameData.allianceId
             ) {
-
-                console.log(
-                    `${scriptName}: Welt oder Allianz noch nicht verfügbar`
-                );
-
-
                 return;
             }
-
 
             const current =
                   loadCurrentSettings(
                       gameData
                   );
 
-
             const settings =
                   current.settings;
 
-
-            console.log(
-                `${scriptName}: Automatikprüfung`,
-                {
-
-                    world:
-                    gameData.worldId,
-
-                    alliance:
-                    gameData.allianceId,
-
-                    target:
-                    settings.targetPlayer,
-
-                    enabled:
-                    settings.enabled
-                }
-            );
-
-
-            // -------------------------------------------------
-            // Keine Konfiguration
-            // -------------------------------------------------
-
-            if (!settings.targetPlayer) {
-
-                console.log(
-                    `${scriptName}: Keine Konfiguration für ` +
-                    `Welt ${gameData.worldId} / Allianz ${gameData.allianceId}`
-                );
-
-
-                return;
-            }
-
-
-            // -------------------------------------------------
             // Automatik ausgeschaltet
-            // -------------------------------------------------
-
             if (!settings.enabled) {
-
-                console.log(
-                    `${scriptName}: Automatik für ` +
-                    `Welt ${gameData.worldId} deaktiviert`
-                );
-
-
+                stopAutomaticSubstitutionMonitor();
                 return;
             }
 
+            // Kein Zielspieler
+            if (!settings.targetPlayer) {
+                stopAutomaticSubstitutionMonitor();
+                return;
+            }
 
-            // -------------------------------------------------
-            // UV bereits vorhanden
-            // -------------------------------------------------
+            // -----------------------------------------------------
+            // Prüfen, ob bereits eine UV aktiv ist
+            // -----------------------------------------------------
 
             const currentSub =
                   getSubstitutionStatus();
 
-
             if (currentSub.active) {
 
-                console.log(
-                    `${scriptName}: UV bereits aktiv → ` +
-                    `${currentSub.player}`
-                );
-
-
+                // UV ist noch aktiv.
+                // Deshalb später erneut prüfen.
                 return;
             }
 
-
-            // -------------------------------------------------
-            // Keine UV → automatisch senden
-            // -------------------------------------------------
+            // -----------------------------------------------------
+            // Keine UV mehr vorhanden
+            // → neue UV automatisch senden
+            // -----------------------------------------------------
 
             console.log(
-                `${scriptName}: Keine UV vorhanden. ` +
+                `${scriptName}: Keine aktive UV vorhanden. ` +
                 `Automatische UV an ${settings.targetPlayer}`
-            );
+        );
 
+        sendSubstitutionAutomatic(
+            settings.targetPlayer
+        );
 
-            sendSubstitutionAutomatic(
-                settings.targetPlayer
-            );
+        // Die automatische Überwachung kann beendet werden.
+        stopAutomaticSubstitutionMonitor();
 
+    } catch (e) {
 
-        } catch (e) {
+        console.error(
+            `${scriptName}: Fehler bei der Automatikprüfung`,
+            e
+        );
+    }
+   }
 
-            console.error(
-                `${scriptName}: Fehler bei der Automatikprüfung`,
-                e
-            );
+    function startAutomaticSubstitutionMonitor() {
+
+        // Falls bereits eine Prüfung läuft,
+        // keine zweite starten.
+        if (automaticCheckTimer) {
+            return;
         }
+
+        console.log(
+            `${scriptName}: Automatische UV-Überwachung gestartet`
+    );
+
+        automaticCheckTimer =
+            setInterval(
+            function () {
+
+                checkAutomaticSubstitution();
+
+            },
+            5000
+        );
+
+        // Sofort einmal prüfen
+        checkAutomaticSubstitution();
     }
 
+
+    function stopAutomaticSubstitutionMonitor() {
+
+        if (automaticCheckTimer) {
+
+            clearInterval(
+                automaticCheckTimer
+            );
+
+            automaticCheckTimer = null;
+
+            console.log(
+                `${scriptName}: Automatische UV-Überwachung beendet`
+        );
+    }
+}
 
     // =========================================================
     // Automatischer Versand
@@ -1087,8 +1078,8 @@
             );
 
 
-            return;
-        }
+                return;
+            }
 
 
         let instanceId;
@@ -1152,11 +1143,11 @@
                         `${targetPlayer}`
                         );
 
-                }
-            ),
+                    }
+                ),
 
-            null
-        );
+                null
+            );
     }
 
 
@@ -1840,7 +1831,7 @@
         // EINZIGE AUTOMATISCHE PRÜFUNG BEIM LOGIN
         // -----------------------------------------------------
 
-        checkAutomaticSubstitution();
+        startAutomaticSubstitutionMonitor();
 
     }
 
