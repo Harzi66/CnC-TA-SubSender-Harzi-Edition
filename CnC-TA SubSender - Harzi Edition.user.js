@@ -7,6 +7,7 @@
 // @match          https://*.alliances.commandandconquer.com/*/index.aspx*
 // @downloadURL    https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
 // @updateURL      https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
+// @icon           https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/SubSender-Icon.png
 // @grant          none
 // ==/UserScript==
 
@@ -977,21 +978,21 @@
                 `Automatische UV an ${settings.targetPlayer}`
         );
 
-        sendSubstitutionAutomatic(
-            settings.targetPlayer
-        );
+            sendSubstitutionAutomatic(
+                settings.targetPlayer
+            );
 
-        // Die automatische Überwachung kann beendet werden.
-        stopAutomaticSubstitutionMonitor();
+            // Die automatische Überwachung kann beendet werden.
+            stopAutomaticSubstitutionMonitor();
 
-    } catch (e) {
+        } catch (e) {
 
-        console.error(
-            `${scriptName}: Fehler bei der Automatikprüfung`,
-            e
-        );
+            console.error(
+                `${scriptName}: Fehler bei der Automatikprüfung`,
+                e
+            );
+        }
     }
-   }
 
     function startAutomaticSubstitutionMonitor() {
 
@@ -1140,11 +1141,11 @@
                         `${targetPlayer}`
                         );
 
-                    }
-                ),
+                }
+            ),
 
-                null
-            );
+            null
+        );
     }
 
 
@@ -1687,6 +1688,10 @@
     // SCRIPTE-MENÜ
     // =========================================================
 
+    const Icons = {
+        SubSender: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAADI0lEQVR42iXRy2tcVQDA4d8598y9k8mdMJNJGpvaJmlImDQxRnzgStwoQheCa0ERwUXVbsRlN+4lRRcupCBUEBQRQ2tQSAUlJBq1ITRpodrENDMNk8nMZB73de45Lvz+hU8opex771/m3NlR2t2YfN5HCIlSCiklQgisMUiTorWm0wvI9Xvs7u1zdXERcenSu7YTJlxffoDpyyL6PMhkwJGgJAKBTS1GC0g0hD1Uu80br5bxFEjXzfDFrQqp5wEGYzxs6mK1h9D9WO2TMx4fZI95020y7XTQmQzXlu6T9bKoeisgky+StCowMInIDmKlDwPnSKULVpFEFd7a+pqRWpPFoQk+KszhmgytboIS0gEhwSsi3CImN8n41DTDuQ6ny2V0bpD25jp/3S/x7dOvsF5PwFEYaUlTjUqSBIuDUFlwR5maW6Dw54fs/LZCPHme727+QGfMZeOriItX3mZ4V/LZ1c8hC8YYpMWCcrCiH1OYodBeZXt9Ba/4OP9UGnz86TUODpvEUchZV/P68yVKY+fRBlJjUAIw1mH8dJ4r75R4pvwa6eUXGT41ws0bN1haXmYlCDiTGpZ+vEVhaJhc/wB1oTCpRqY6waSGwkCWJ4fadGr7zMxc4Lhep/roEdPT0+zv/8tPvk/1sErt8JAoMeBItNaoOI5BulSOQ0bG51hbW2X7y+sIIfB9n9ZJG+P73MHhOSEJo4hUh2AMSaJRcZIgjabT6bF5e4NnFy5w0otpNpusr//O3u4DTj02ygsvvYxIY3R4AoGGJCaKkv8XHKvptWp88s0fjPqrNCt30XFM5eEeYxOThEGP1kmHHnka3ZReq4ZjUsIwRoVRQhpGiPiI5bUDkH04+TLFYpH+CZfw4Hsav/5Mo2+W3pmLUN+BdhUpC4RhhPI9QZ81dLsJxLchWyINshwdOhwJj1xQZaI0TL3RgIe/QFiF2CE36JLNBIjZuXk7VZ5j42+FVgrhuQjlIJQEIXEVZCR02wFpKrFBQMYanhqPube9iQDsE/MLzM/PYq2DdCRSCBASR0qElKTGgjUkSUwURQhStrbucO/uDv8BRSmC47x2E2oAAAAASUVORK5CYII='
+    };
+
     function addScriptsMenuEntry() {
 
         const scriptsButton =
@@ -1715,7 +1720,8 @@
 
         const menuItem =
               new qx.ui.menu.Button(
-                  scriptName
+                  scriptName,
+                  Icons.SubSender
               );
 
         menuItem.addListener(
