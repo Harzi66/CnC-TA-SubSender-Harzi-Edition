@@ -5,8 +5,8 @@
 // @description    Automatische Spielervertretung für C&C Tiberium Alliances
 // @author         Harzi66
 // @match          https://*.alliances.commandandconquer.com/*/index.aspx*
-// @downloadURL    https://raw.githubusercontent.com/DEIN-GITHUB-NAME/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
-// @updateURL      https://raw.githubusercontent.com/DEIN-GITHUB-NAME/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
+// @downloadURL    https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
+// @updateURL      https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
 // @grant          none
 // ==/UserScript==
 
