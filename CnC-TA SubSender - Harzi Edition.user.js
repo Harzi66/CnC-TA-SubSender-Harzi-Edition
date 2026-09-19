@@ -5,8 +5,8 @@
 // @description    Automatische Spielervertretung für C&C Tiberium Alliances
 // @author         Harzi66
 // @match          https://*.alliances.commandandconquer.com/*/index.aspx*
-// @downloadURL    https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
-// @updateURL      https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/CnC-TA%20SubSender%20-%20Harzi%20Edition.user.js
+// @downloadURL    https://raw.githubusercontent.com/Harzi66/CnC-TA-Allianz-PvP-PvE-HE/main/CnC-TA%20Allianz%20PvP-PvE%20-%20HE.user.js
+// @updateURL      https://raw.githubusercontent.com/Harzi66/CnC-TA-Allianz-PvP-PvE-HE/main/CnC-TA%20Allianz%20PvP-PvE%20-%20HE.user.js
 // @icon           https://raw.githubusercontent.com/Harzi66/CnC-TA-SubSender-Harzi-Edition/main/SubSender-Icon.png
 // @grant          none
 // ==/UserScript==
@@ -127,10 +127,9 @@
 
             settings:
             allSettings[key] || {
-
+                playerId: null,
                 targetPlayer: '',
                 enabled: false
-
             }
         };
     }
@@ -168,6 +167,8 @@
 
 
         allSettings[key] = {
+            playerId:
+            gameData.playerId,
 
             targetPlayer:
             String(targetPlayer || '').trim(),
@@ -948,6 +949,16 @@
                 return;
             }
 
+            // Auftrag gehört nicht zum aktuell eingeloggten Spieler
+            if (
+                settings.playerId === null ||
+                settings.playerId === undefined ||
+                Number(settings.playerId) !== Number(gameData.playerId)
+            ) {
+                stopAutomaticSubstitutionMonitor();
+                return;
+            }
+
             // Kein Zielspieler
             if (!settings.targetPlayer) {
                 stopAutomaticSubstitutionMonitor();
@@ -1034,8 +1045,8 @@
             console.log(
                 `${scriptName}: Automatische UV-Überwachung beendet`
         );
+        }
     }
-}
 
     // =========================================================
     // Automatischer Versand
@@ -1076,8 +1087,8 @@
             );
 
 
-                return;
-            }
+            return;
+        }
 
 
         let instanceId;
