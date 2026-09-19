@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           CnC-TA SubSender - HE
 // @namespace      https://github.com/Harzi66/CnC-TA-SubSender-Harzi-Edition
-// @version        0.1.8
+// @version        0.1.9
 // @description    Automatische Spielervertretung für C&C Tiberium Alliances
 // @author         Harzi66
 // @match          https://*.alliances.commandandconquer.com/*/index.aspx*
