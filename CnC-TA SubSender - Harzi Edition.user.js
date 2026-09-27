@@ -1718,19 +1718,31 @@
             return;
         }
 
+        // Den nativen C&C-TA-ScriptsButton verwenden.
+        // Dadurch wird der Scripts-Menüpunkt bei Bedarf vom Spiel
+        // selbst korrekt initialisiert.
+        scriptsButton.Add(
+            scriptName,
+            Icons.SubSender
+        );
+
         const menuItem =
-              new qx.ui.menu.Button(
-                  scriptName,
-                  Icons.SubSender
-              );
+              scriptsButton
+                  .getMenu()
+                  .getChildren()
+                  .find(
+                      item =>
+                      item.getLabel() === scriptName
+                  );
+
+        if (!menuItem) {
+            console.error(`${scriptName}: Nativer Menüeintrag konnte nicht ermittelt werden`);
+            return;
+        }
 
         menuItem.addListener(
             'execute',
             openWindow
-        );
-
-        menu.add(
-            menuItem
         );
 
         console.log(
