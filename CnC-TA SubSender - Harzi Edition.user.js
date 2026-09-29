@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           CnC-TA SubSender - HE
 // @namespace      https://github.com/Harzi66/CnC-TA-SubSender-Harzi-Edition
-// @version        0.1.8
+// @version        0.1.9
 // @description    Automatische Spielervertretung für C&C Tiberium Alliances
 // @author         Harzi66
 // @match          https://*.alliances.commandandconquer.com/*/index.aspx*
@@ -11,6 +11,9 @@
 // @grant          none
 // ==/UserScript==
 
+
+// Änderungen in 0.1.9
+// - Ab sofort wird die UV Vergabe an die Spieler-ID gebunden
 
 (function () {
 
@@ -95,10 +98,10 @@
 
     function getSettingsKey(
     worldId,
-     allianceId
+     allianceId,
+     playerId
     ) {
-
-        return `${worldId}_${allianceId}`;
+        return `${worldId}_${allianceId}_${playerId}`;
     }
 
 
@@ -117,7 +120,8 @@
         const key =
               getSettingsKey(
                   gameData.worldId,
-                  gameData.allianceId
+                  gameData.allianceId,
+                  gameData.playerId
               );
 
 
@@ -149,9 +153,9 @@
         if (
             !gameData ||
             !gameData.worldId ||
-            !gameData.allianceId
+            !gameData.allianceId ||
+            !gameData.playerId
         ) {
-
             return;
         }
 
@@ -163,7 +167,8 @@
         const key =
               getSettingsKey(
                   gameData.worldId,
-                  gameData.allianceId
+                  gameData.allianceId,
+                  gameData.playerId
               );
 
 
@@ -1034,8 +1039,8 @@
             console.log(
                 `${scriptName}: Automatische UV-Überwachung beendet`
         );
+        }
     }
-}
 
     // =========================================================
     // Automatischer Versand
@@ -1076,8 +1081,8 @@
             );
 
 
-                return;
-            }
+            return;
+        }
 
 
         let instanceId;
@@ -1728,12 +1733,12 @@
 
         const menuItem =
               scriptsButton
-                  .getMenu()
-                  .getChildren()
-                  .find(
-                      item =>
-                      item.getLabel() === scriptName
-                  );
+        .getMenu()
+        .getChildren()
+        .find(
+            item =>
+            item.getLabel() === scriptName
+        );
 
         if (!menuItem) {
             console.error(`${scriptName}: Nativer Menüeintrag konnte nicht ermittelt werden`);
