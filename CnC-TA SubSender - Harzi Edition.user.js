@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           CnC-TA SubSender - HE
 // @namespace      https://github.com/Harzi66/CnC-TA-SubSender-Harzi-Edition
-// @version        0.1.9
+// @version        0.2.0
 // @description    Automatische Spielervertretung für C&C Tiberium Alliances
 // @author         Harzi66
 // @match          https://*.alliances.commandandconquer.com/*/index.aspx*
@@ -20,6 +20,7 @@
     'use strict';
 
     const scriptName = 'SubSender - HE';
+    const scriptVersion = '0.2.0';
 
     const settingsKey =
           'HarziSubSender.Settings';
@@ -1190,7 +1191,7 @@
 
         subSenderWindow =
             new qx.ui.window.Window(
-            scriptName
+            `${scriptName} v${scriptVersion}`
         );
 
 
